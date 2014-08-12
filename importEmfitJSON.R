@@ -4,7 +4,7 @@ importEmfitJSON <- function(filename, timezone) {
   dataAll <- fromJSON(filename)
   
   calc_data <- as.data.frame(dataAll[["calc_data"]])
-  colnames(calc_data) <- c("timestamp","heart_rate","activity","breathing_rate", "sleep_phase","activity2")
+  colnames(calc_data) <- c("timestamp","heart_rate","heart_rate_quality","breathing_rate", "breathing_rate_quality","activity")
   
   calc_data[,"timestamp"] <- as.POSIXct(origin="1970-01-01", tz="GMT", x=calc_data[,"timestamp"])
   head(calc_data)
@@ -21,6 +21,10 @@ importEmfitJSON <- function(filename, timezone) {
 filename <- "~/Dropbox/DataSets/Emfit/device-10-presence-report-1019.json"
 temp <- importEmfitJSON(filename, timezone="Europe/Ljubljana")
 head(temp)
+tail(temp)
+str(temp)
+temp[1000:1005,]
+summary(temp)
 
 library(ggplot2)
 plot <- ggplot(data = temp) + geom_point(aes(x=timestamp, y=heart_rate), color="black") + theme_bw()
